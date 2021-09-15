@@ -46,11 +46,9 @@ for method in http_methods:
             }
             if method == 'post':
                 response = requests.post(url, data=data).text
-                print(f'Если передать в параметре method значение {method_value}, то вернется {response}')
             elif method == 'put':
                 response = requests.put(url, data=data).text
-                print(f'Если передать в параметре method значение {method_value}, то вернется {response}')
             else:
                 response = requests.delete(url, data=data).text
-                print(f'Если передать в параметре method значение {method_value}, то вернется {response}')
+            print(f'Если передать в параметре method значение {method_value}, то вернется {response}')
 
