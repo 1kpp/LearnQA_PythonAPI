@@ -1,3 +1,4 @@
 allure-pytest
 pytest
 requests
+allure-pytest==2.9.43
