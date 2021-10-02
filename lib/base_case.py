@@ -57,6 +57,7 @@ class BaseCase:
         result = {}
         result.update({'auth_sid': self.get_cookie(response_2, "auth_sid")})
         result.update({'token': self.get_header(response_2, 'x-csrf-token')})
+        result.update({'user_id': response_2.json()['user_id']})
         return result
 
     def prepare_registration_data_without_one_field(self, field):
