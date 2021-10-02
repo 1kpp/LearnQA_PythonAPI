@@ -28,7 +28,7 @@ class TestEditUser(BaseCase):
 
     def test_edit_user_being_unauthorized(self):
         new_name = 'changed_name'
-        response_2 = MyRequests.put(f'/user/2', data={'firstName': new_name})
+        response_2 = MyRequests.put('/user/2', data={'firstName': new_name})
         Assertions.assert_response_text(response_2, 'Auth token not supplied')
         Assertions.assert_code_status(response_2, 400)
 
