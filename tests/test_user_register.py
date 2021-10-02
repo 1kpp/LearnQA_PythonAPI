@@ -41,21 +41,18 @@ class TestUserRegister(BaseCase):
         payload = self.prepare_registration_data_without_one_field(data)
         response = MyRequests.post("/user/", data=payload)
         Assertions.assert_code_status(response, 400)
-        assert response.content.decode("utf-8") == f'The following required params are missed: {data}', \
-            f"Unexpected response content: {response.content}"
+        Assertions.assert_response_text(response, f'The following required params are missed: {data}')
 
     def test_create_user_with_shortname(self):
         username = self.random_string(1)
         data = self.prepare_registration_data(username=username)
         response = MyRequests.post("/user/", data=data)
         Assertions.assert_code_status(response, 400)
-        assert response.content.decode("utf-8") == "The value of 'username' field is too short", \
-            f"Unexpected response content: {response.content}"
+        Assertions.assert_response_text(response, "The value of 'username' field is too short")
 
     def test_create_user_with_too_long_name(self):
         username = self.random_string(255)
         data = self.prepare_registration_data(username=username)
         response = MyRequests.post("/user/", data=data)
         Assertions.assert_code_status(response, 400)
-        assert response.content.decode("utf-8") == "The value of 'username' field is too long", \
-            f"Unexpected response content: {response.content}"
+        Assertions.assert_response_text(response, "The value of 'username' field is too long")

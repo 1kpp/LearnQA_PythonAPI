@@ -1,6 +1,8 @@
 import json
 import random
 import string
+from lib.my_requests import MyRequests
+from lib.assertions import Assertions
 from datetime import datetime
 from requests import Response
 
@@ -36,6 +38,26 @@ class BaseCase:
             'lastName': self.random_string() if lastName is None else lastName,
             'email': email,
         }
+
+    def register_user(self):
+        register_data = self.prepare_registration_data()
+        response = MyRequests.post('/user/', data=register_data)
+        Assertions.assert_code_status(response, 200)
+        Assertions.assert_json_has_key(response, 'id')
+        result = {}
+
+        result.update({'email': register_data['email']})
+        result.update({'firstName': register_data['firstName']})
+        result.update({'password': register_data['password']})
+        result.update({'user_id': self.get_json_value(response, 'id')})
+        return result
+
+    def login_user(self, login_data):
+        response_2 = MyRequests.post('/user/login', data=login_data)
+        result = {}
+        result.update({'auth_sid': self.get_cookie(response_2, "auth_sid")})
+        result.update({'token': self.get_header(response_2, 'x-csrf-token')})
+        return result
 
     def prepare_registration_data_without_one_field(self, field):
         if field == 'password':

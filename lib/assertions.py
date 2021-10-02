@@ -40,3 +40,8 @@ class Assertions:
         except json.JSONDecodeError:
             assert False, f'Response is not in json format, response text is {response.text}'
         assert name not in response_as_dict, f'Response json has key name "{name}"'
+
+    @staticmethod
+    def assert_response_text(response: Response, text):
+        assert response.content.decode("utf-8") == text, f'Response text in not equal to "{text}", ' \
+                                                         f'response text is "{response.content.decode("utf-8")}"'
